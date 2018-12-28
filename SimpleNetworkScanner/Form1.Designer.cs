@@ -51,6 +51,7 @@
             this.btnOpen.TabIndex = 2;
             this.btnOpen.Text = "Open session from file";
             this.btnOpen.UseVisualStyleBackColor = true;
+            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
             // btnLast
             // 
@@ -60,6 +61,7 @@
             this.btnLast.TabIndex = 1;
             this.btnLast.Text = "Open last session";
             this.btnLast.UseVisualStyleBackColor = true;
+            this.btnLast.Click += new System.EventHandler(this.btnLast_Click);
             // 
             // FormMain
             // 

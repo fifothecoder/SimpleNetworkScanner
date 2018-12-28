@@ -12,8 +12,7 @@ namespace SimpleNetworkScanner
 {
     public partial class FormMain : Form
     {
-        
-
+       
 
         public FormMain()
         {
@@ -26,7 +25,16 @@ namespace SimpleNetworkScanner
             {
                 CheckLastSaveExist();
                 Settings.InitSettings();
-                btnLast.Enabled = Settings.HasKey("LAST_SAVE");
+                btnLast.Enabled = false;
+                if(Settings.HasKey("LAST_SAVE"))
+                {
+                    btnLast.Enabled = true;
+                    string fileLoc = " (";
+                    fileLoc += (Settings.GetSetting("LAST_SAVE").Length > 50) ? "..." + Settings.GetSetting("LAST_SAVE").Substring(Settings.GetSetting("LAST_SAVE").Length - 47) 
+                        : Settings.GetSetting("LAST_SAVE");        //Set text to show to max 52 chars
+                    btnLast.Text += fileLoc + ")";   
+                }
+               
                 FormClosing += (x, y) => { Settings.SaveSettings(); };
             } catch (Exception ex)
             {
@@ -62,7 +70,7 @@ namespace SimpleNetworkScanner
                 
                 while(!reader.EndOfStream)                   //Check for every tuple
                 {
-                    string cache = reader.ReadWord();
+                    string cache = (isValue) ? reader.ReadLine().Trim() : reader.ReadWord();
                     if(cache == string.Empty) return wordCount != Settings.SETTINGS_COUNT;
                     if (isValue)
                     {
@@ -85,6 +93,31 @@ namespace SimpleNetworkScanner
             session.FormClosed += (x, y) => { Close(); };       //Quickcast to close main Form after user closes the session
             Hide();
             session.ShowDialog();
+        }
+
+        private void btnLast_Click(object sender, EventArgs e)
+        {
+            FormSession session = new FormSession(Settings.GetSetting("LAST_SAVE"));
+            session.FormClosed += (x, y) => { Close(); };       //Quickcast to close main Form after user closes the session
+            Hide();
+            session.ShowDialog();
+        }
+
+        private void btnOpen_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "Session Data|*session", DefaultExt = "session", Title = "Open Session" };
+            if(openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                FormSession session = new FormSession(openFileDialog.FileName);
+                session.FormClosed += (x, y) => { Close(); };       //Quickcast to close main Form after user closes the session
+                Hide();
+                session.ShowDialog();
+            } else
+            {
+                MessageBox.Show("You haven't chosen valid file!");
+                //Maybe return new invocation of this method?
+            }
+
         }
     }
 }

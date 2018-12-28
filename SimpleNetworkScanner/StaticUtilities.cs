@@ -16,8 +16,9 @@ namespace SimpleNetworkScanner
                reader.Read();
             while (reader.Peek() != ' ' && reader.Peek() != '\n' && !reader.EndOfStream)
                 s += (char)reader.Read();
-            s = s.Replace("\n", "");
-            s = s.Replace("\r", "");
+            s = s.Replace('\n', '*');
+            s = s.Replace('\r', '*');
+            s = s.Replace("*", "");             //'*' is not allowed char in naming files, thus can't be in the name
             return s;
         }
 

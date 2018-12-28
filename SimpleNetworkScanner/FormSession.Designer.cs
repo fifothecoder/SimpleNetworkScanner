@@ -68,6 +68,7 @@
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.saveAsToolStripMenuItem.Text = "Save As...";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -83,7 +84,7 @@
             this.Controls.Add(this.topMenu);
             this.MainMenuStrip = this.topMenu;
             this.Name = "FormSession";
-            this.Text = "FormSession";
+            this.Text = "Unsaved Session";
             this.Load += new System.EventHandler(this.FormSession_Load);
             this.topMenu.ResumeLayout(false);
             this.topMenu.PerformLayout();

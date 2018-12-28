@@ -35,6 +35,8 @@ namespace SimpleNetworkScanner
                     MessageBox.Show("Error happened while loading session data!");
                     Close();
                 }
+                Settings.SetSetting("LAST_SAVE", SESSION_PATH);
+                Text = SESSION_PATH;
             }
 
 
@@ -65,23 +67,28 @@ namespace SimpleNetworkScanner
             return true;
         }
 
+        private string GetCurrentSaveString()
+        {
+            return "#SAVE_BEGIN"                    + Environment.NewLine +
+                   $"Time Stamp : {DateTime.Now}"   + Environment.NewLine +
+                   "#SAVE_END";
+        }
+
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(SESSION_PATH == string.Empty)
+            if (SESSION_PATH == string.Empty)
             {
-                SaveFileDialog saveFileDialog = new SaveFileDialog();
-                saveFileDialog.Filter = "Session Data|*session";
-                saveFileDialog.Title = "Save Current Session";
+                SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = "Session Data|*session", DefaultExt = "session", Title = "Save Current Session" };
                 saveFileDialog.ShowDialog();
-                if(saveFileDialog.FileName != string.Empty)
+                if (saveFileDialog.FileName != string.Empty)
                 {
-                    if (saveFileDialog.FileName.Length - 8 > 0 && saveFileDialog.FileName.Substring(saveFileDialog.FileName.Length - 9) != ".session")
-                        saveFileDialog.FileName += ".session"; 
+
                     using (StreamWriter writer = new StreamWriter(saveFileDialog.OpenFile()))
                     {
                         writer.Write(GetCurrentSaveString());
                     }
-                } else
+                }
+                else
                 {
                     MessageBox.Show("You need to set the name for the file!");
                     //Maybe return new invocation of this method?
@@ -89,19 +96,41 @@ namespace SimpleNetworkScanner
                 SESSION_PATH = saveFileDialog.FileName;
                 Settings.SetSetting("LAST_SAVE", saveFileDialog.FileName);
 
-            } else {
+            }
+            else
+            {
                 using (StreamWriter writer = new StreamWriter(SESSION_PATH))
                 {
                     writer.Write(GetCurrentSaveString());
                 }
             }
+            Text = SESSION_PATH;
         }
 
-        private string GetCurrentSaveString()
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            return "#SAVE_BEGIN"                    + Environment.NewLine +
-                   $"Time Stamp : {DateTime.Now}"   + Environment.NewLine +
-                   "#SAVE_END";
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Session Data|*session";
+            saveFileDialog.DefaultExt = "session";
+            saveFileDialog.Title = "Save Current Session";
+            saveFileDialog.ShowDialog();
+            if (saveFileDialog.FileName != string.Empty)
+            {
+
+                using (StreamWriter writer = new StreamWriter(saveFileDialog.OpenFile()))
+                {
+                    writer.Write(GetCurrentSaveString());
+                }
+            }
+            else
+            {
+                MessageBox.Show("You need to set the name for the file!");
+                //Maybe return new invocation of this method?
+            }
+            SESSION_PATH = saveFileDialog.FileName;
+            Settings.SetSetting("LAST_SAVE", saveFileDialog.FileName);
+            Text = SESSION_PATH;
+
         }
     }
 }

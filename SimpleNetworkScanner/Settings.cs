@@ -21,13 +21,15 @@ namespace SimpleNetworkScanner
                 {
                     string key = reader.ReadWord();
                     if (key == string.Empty) break;
-                    else SETTINGS_LIST.Add(key, reader.ReadWord());
+                    else SETTINGS_LIST.Add(key, reader.ReadLine().Trim());
                 }
             }
+
+            if (SETTINGS_LIST.ContainsKey("LAST_SAVE") && !File.Exists(SETTINGS_LIST["LAST_SAVE"])) SETTINGS_LIST.Remove("LAST_SAVE");
         }
         public static bool IsValidSetting(string s)
         {
-            bool b = new string[] { "WIN_SIZE", "LAST_SESSION"}.Contains(s.ToUpper());
+            bool b = new string[] { "WIN_SIZE", "LAST_SAVE"}.Contains(s.ToUpper());
             return b;
         }
 
