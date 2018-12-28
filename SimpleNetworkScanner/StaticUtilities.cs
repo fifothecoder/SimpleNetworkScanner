@@ -12,9 +12,12 @@ namespace SimpleNetworkScanner
         public static string ReadWord(this StreamReader reader)
         {
             string s = string.Empty;
-            while (reader.Peek() == ' ') reader.Read();
-            while (reader.Peek() != ' ') s += reader.Read();
-            s.Replace("\n", "");
+            while ((reader.Peek() == ' ' || reader.Peek() == '\n') && !reader.EndOfStream)
+               reader.Read();
+            while (reader.Peek() != ' ' && reader.Peek() != '\n' && !reader.EndOfStream)
+                s += (char)reader.Read();
+            s = s.Replace("\n", "");
+            s = s.Replace("\r", "");
             return s;
         }
 

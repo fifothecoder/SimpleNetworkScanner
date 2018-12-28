@@ -26,6 +26,8 @@ namespace SimpleNetworkScanner
             {
                 CheckLastSaveExist();
                 Settings.InitSettings();
+                btnLast.Enabled = Settings.HasKey("LAST_SAVE");
+                FormClosing += (x, y) => { Settings.SaveSettings(); };
             } catch (Exception ex)
             {
                 MessageBox.Show("Error while working with the settings file occured!");
@@ -39,14 +41,12 @@ namespace SimpleNetworkScanner
                 
             btnLast.Enabled = false;
             if (File.Exists(Settings.SETTINGS_PATH)) File.Delete(Settings.SETTINGS_PATH);
-            File.Create(Settings.SETTINGS_PATH);
 
             try
             {
                 using (StreamWriter writer = new StreamWriter(Settings.SETTINGS_PATH))
                 {
-                    writer.WriteLine("WIN_WIDTH 640");
-                    writer.WriteLine("WIN_HEIGHT 400");
+                    writer.WriteLine("WIN_SIZE 600x400");
                 }
             }
             catch (IOException) { throw new Exception("Error occured while creating the settings file!"); }
@@ -58,27 +58,33 @@ namespace SimpleNetworkScanner
             int wordCount = 0;
             using (StreamReader reader = new StreamReader(Settings.SETTINGS_PATH))
             {
-                if (reader.EndOfStream) return false;       //Check if settings aren't empty
-
                 bool isValue = false;
                 
-                while(reader.EndOfStream)                   //Check for every tuple
+                while(!reader.EndOfStream)                   //Check for every tuple
                 {
                     string cache = reader.ReadWord();
-                    if(isValue)
+                    if(cache == string.Empty) return wordCount != Settings.SETTINGS_COUNT;
+                    if (isValue)
                     {
                         wordCount++;
                         isValue = false;
                     } else
                     {
-                        if (!Settings.IsValidSetting(cache)) return false;
+                        if (!Settings.IsValidSetting(cache)) return true;
                         wordCount++;
                         isValue = true;
                     }
                 }
             }
-            return wordCount % 2 == 1;
+            return wordCount != Settings.SETTINGS_COUNT;
         }
 
+        private void btnCreate_Click(object sender, EventArgs e)
+        {
+            FormSession session = new FormSession(string.Empty);
+            session.FormClosed += (x, y) => { Close(); };       //Quickcast to close main Form after user closes the session
+            Hide();
+            session.ShowDialog();
+        }
     }
 }
