@@ -32,7 +32,16 @@
             this.sessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lbSessionLogs = new System.Windows.Forms.ListBox();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pingLocalhostToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pingLoopbackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pingDNSServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.targetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pingTargetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.topMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -40,7 +49,9 @@
             // 
             this.topMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.topMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sessionToolStripMenuItem});
+            this.sessionToolStripMenuItem,
+            this.pingToolStripMenuItem,
+            this.targetsToolStripMenuItem});
             this.topMenu.Location = new System.Drawing.Point(0, 0);
             this.topMenu.Name = "topMenu";
             this.topMenu.Size = new System.Drawing.Size(800, 28);
@@ -51,6 +62,8 @@
             this.sessionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
+            this.openToolStripMenuItem,
+            this.settingsToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.sessionToolStripMenuItem.Name = "sessionToolStripMenuItem";
             this.sessionToolStripMenuItem.Size = new System.Drawing.Size(70, 24);
@@ -70,17 +83,81 @@
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.openToolStripMenuItem.Text = "Open...";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.exitToolStripMenuItem.Text = "Exit...";
             // 
+            // lbSessionLogs
+            // 
+            this.lbSessionLogs.FormattingEnabled = true;
+            this.lbSessionLogs.ItemHeight = 16;
+            this.lbSessionLogs.Location = new System.Drawing.Point(12, 162);
+            this.lbSessionLogs.Name = "lbSessionLogs";
+            this.lbSessionLogs.Size = new System.Drawing.Size(299, 276);
+            this.lbSessionLogs.TabIndex = 1;
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.settingsToolStripMenuItem.Text = "Settings...";
+            // 
+            // pingToolStripMenuItem
+            // 
+            this.pingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pingLoopbackToolStripMenuItem,
+            this.pingLocalhostToolStripMenuItem,
+            this.pingDNSServerToolStripMenuItem,
+            this.pingTargetsToolStripMenuItem});
+            this.pingToolStripMenuItem.Name = "pingToolStripMenuItem";
+            this.pingToolStripMenuItem.Size = new System.Drawing.Size(50, 24);
+            this.pingToolStripMenuItem.Text = "Ping";
+            // 
+            // pingLocalhostToolStripMenuItem
+            // 
+            this.pingLocalhostToolStripMenuItem.Name = "pingLocalhostToolStripMenuItem";
+            this.pingLocalhostToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.pingLocalhostToolStripMenuItem.Text = "Ping Localhost...";
+            // 
+            // pingLoopbackToolStripMenuItem
+            // 
+            this.pingLoopbackToolStripMenuItem.Name = "pingLoopbackToolStripMenuItem";
+            this.pingLoopbackToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.pingLoopbackToolStripMenuItem.Text = "Ping Loopback...";
+            // 
+            // pingDNSServerToolStripMenuItem
+            // 
+            this.pingDNSServerToolStripMenuItem.Name = "pingDNSServerToolStripMenuItem";
+            this.pingDNSServerToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.pingDNSServerToolStripMenuItem.Text = "Ping DNS Server";
+            // 
+            // targetsToolStripMenuItem
+            // 
+            this.targetsToolStripMenuItem.Name = "targetsToolStripMenuItem";
+            this.targetsToolStripMenuItem.Size = new System.Drawing.Size(68, 24);
+            this.targetsToolStripMenuItem.Text = "Targets";
+            // 
+            // pingTargetsToolStripMenuItem
+            // 
+            this.pingTargetsToolStripMenuItem.Name = "pingTargetsToolStripMenuItem";
+            this.pingTargetsToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.pingTargetsToolStripMenuItem.Text = "Ping Targets";
+            // 
             // FormSession
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lbSessionLogs);
             this.Controls.Add(this.topMenu);
             this.MainMenuStrip = this.topMenu;
             this.Name = "FormSession";
@@ -100,5 +177,14 @@
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ListBox lbSessionLogs;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pingLoopbackToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pingLocalhostToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pingDNSServerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pingTargetsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem targetsToolStripMenuItem;
     }
 }

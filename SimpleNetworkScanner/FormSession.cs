@@ -132,5 +132,22 @@ namespace SimpleNetworkScanner
             Text = SESSION_PATH;
 
         }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "Session Data|*session", DefaultExt = "session", Title = "Open Session" };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                FormSession session = new FormSession(openFileDialog.FileName);
+                session.FormClosed += (x, y) => { Close(); };       //Quickcast to close main Form after user closes the session
+                Hide();
+                session.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("You haven't chosen valid file!");
+                //Maybe return new invocation of this method?
+            }
+        }
     }
 }
