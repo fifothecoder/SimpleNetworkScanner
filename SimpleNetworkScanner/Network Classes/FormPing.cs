@@ -14,10 +14,10 @@ namespace SimpleNetworkScanner.Network_Classes
     {
         private List<IPAddress> TARGETS;
 
-        public FormPing(List<IPAddress> ips, string formHead)
+        public FormPing(string formHead)
         {
             InitializeComponent();
-            TARGETS = ips;
+            TARGETS = FormSession.TARGETS;
             Text = formHead;
         }
 
