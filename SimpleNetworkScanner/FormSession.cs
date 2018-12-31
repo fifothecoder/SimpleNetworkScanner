@@ -13,35 +13,36 @@ namespace SimpleNetworkScanner
 {
     public partial class FormSession : Form
     {
-        private string SESSION_PATH;
+        private string _SESSION_PATH;
 
         public static List<IPAddress> TARGETS;
+        
 
         public FormSession(string path)
         {
             InitializeComponent();
-            SESSION_PATH = path;
+            _SESSION_PATH = path;
             TARGETS = new List<IPAddress>();
         }
 
         private void FormSession_Load(object sender, EventArgs e)
         {
-            if(!LoadSettings())
+            LoadLogs();
+            if (!LoadSettings())
             {
                 MessageBox.Show("Error happened while loading settings!");
                 Close();
             }
-            if (SESSION_PATH != string.Empty)
+            if (_SESSION_PATH != string.Empty)
             {
                 if (!LoadData())
                 {
                     MessageBox.Show("Error happened while loading session data!");
                     Close();
                 }
-                Settings.SetSetting("LAST_SAVE", SESSION_PATH);
-                Text = SESSION_PATH;
+                Settings.SetSetting("LAST_SAVE", _SESSION_PATH);
+                Text = _SESSION_PATH;
             }
-            LoadLogs();
         }
 
         private bool LoadSettings()
@@ -68,7 +69,7 @@ namespace SimpleNetworkScanner
         {
             try
             {
-                using (StreamReader reader = new StreamReader(SESSION_PATH))
+                using (StreamReader reader = new StreamReader(_SESSION_PATH))
                 {
                     while(!reader.EndOfStream)
                     {
@@ -99,13 +100,23 @@ namespace SimpleNetworkScanner
 
         private void LoadLogs()
         {
-            lbSessionLogs.Items.Add("Session Started : " + DateTime.Now);
+            LogHandler.AddLog("Session Started : " + DateTime.Now);
+            RefreshLogs();
+        }
+
+        private void RefreshLogs()
+        {
+            for (int i = lbSessionLogs.Items.Count; i < LogHandler.LOG_CACHE.Count; i++)    //Update logs
+                lbSessionLogs.Items.Add(LogHandler.LOG_CACHE[i]);
         }
 
         private string GetCurrentSaveString()
         {
+            //Compose the parts here
             string targets = string.Empty;
             foreach (var tar in TARGETS) { targets += tar.ToString() + Environment.NewLine; }
+
+            //Actual return string
             return "#SAVE_BEGIN"                    + Environment.NewLine +
                    $"TIME_STAMP"                    + Environment.NewLine +
                    DateTime.Now                     + Environment.NewLine +
@@ -115,9 +126,23 @@ namespace SimpleNetworkScanner
                    "#SAVE_END";
         }
 
+        private void EnableSavePrompt()
+        {
+            if (Text[0] != '*') Text = '*' + Text;
+
+            //Actually activate the prompt upon exit
+        }
+
+        private void DisableSavePrompt()
+        {
+            if (Text[0] == '*') Text = Text.Substring(1);
+
+            //Disable the prompt upon exit
+        }
+
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (SESSION_PATH == string.Empty)
+            if (_SESSION_PATH == string.Empty)
             {
                 SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = "Session Data|*session", DefaultExt = "session", Title = "Save Current Session" };
                 saveFileDialog.ShowDialog();
@@ -128,24 +153,26 @@ namespace SimpleNetworkScanner
                     {
                         writer.Write(GetCurrentSaveString());
                     }
+                    DisableSavePrompt();
                 }
                 else
                 {
                     MessageBox.Show("You need to set the name for the file!");
                     //Maybe return new invocation of this method?
                 }
-                SESSION_PATH = saveFileDialog.FileName;
+                Text = _SESSION_PATH = saveFileDialog.FileName;
                 Settings.SetSetting("LAST_SAVE", saveFileDialog.FileName);
 
             }
             else
             {
-                using (StreamWriter writer = new StreamWriter(SESSION_PATH))
+                using (StreamWriter writer = new StreamWriter(_SESSION_PATH))
                 {
                     writer.Write(GetCurrentSaveString());
                 }
+                DisableSavePrompt();
+                Text = _SESSION_PATH;
             }
-            Text = SESSION_PATH;
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -168,9 +195,9 @@ namespace SimpleNetworkScanner
                 MessageBox.Show("You need to set the name for the file!");
                 //Maybe return new invocation of this method?
             }
-            SESSION_PATH = saveFileDialog.FileName;
+            _SESSION_PATH = saveFileDialog.FileName;
             Settings.SetSetting("LAST_SAVE", saveFileDialog.FileName);
-            Text = SESSION_PATH;
+            Text = _SESSION_PATH;
 
         }
 
@@ -195,11 +222,20 @@ namespace SimpleNetworkScanner
         {
             FormAddTarget formAdd = new FormAddTarget();
             formAdd.FormClosed += (x, y) => {
-                if (formAdd.address != null) lbSessionLogs.Items.Add($"Added adress to targets : {formAdd.address.ToString()}");
-                else if(formAdd.range != null && formAdd.range.Count > 0)
-                    lbSessionLogs.Items.Add($"Added range of adresses to targets : {formAdd.range[0].ToString()} to {formAdd.range[formAdd.range.Count - 1].ToString()}");
+                RefreshLogs();
+                if (formAdd.CHANGES_HAPPENED) EnableSavePrompt();
             };
             formAdd.ShowDialog();
+        }
+
+        private void manageTargetsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormManageTargets formManageTargets = new FormManageTargets();
+            formManageTargets.FormClosed += (x, y) => {
+                RefreshLogs();
+                if (formManageTargets.CHANGES_HAPPENED) EnableSavePrompt();
+            };
+            formManageTargets.ShowDialog();
         }
     }
 }

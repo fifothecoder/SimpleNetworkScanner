@@ -13,14 +13,15 @@ namespace SimpleNetworkScanner.Target_Classes
     public partial class FormAddTarget : Form
     {
 
-        public IPAddress address = null;
-        public List<IPAddress> range = null;
+        public bool CHANGES_HAPPENED = false;
+        public IPAddress IP_ADDRESS = null;
+        public List<IPAddress> IP_RANGE = null;
 
         public FormAddTarget()
         {
             InitializeComponent();
-            range = new List<IPAddress>();
-            address = null;
+            IP_RANGE = new List<IPAddress>();
+            IP_ADDRESS = null;
             RefreshUI();
         }
 
@@ -37,12 +38,7 @@ namespace SimpleNetworkScanner.Target_Classes
 
         private void tbSingleIP_Validating(object sender, CancelEventArgs e)
         {
-            if(tbSingleIP.Text.TryParseIPv4(out IPAddress _address)) address = _address;
-            else
-            {
-                address = null;
-                MessageBox.Show("This is not a valid IP address!");
-            }
+            
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -54,14 +50,60 @@ namespace SimpleNetworkScanner.Target_Classes
         {
             if (rbSingle.Checked)
             {
-                FormSession.TARGETS.Add(address);
-                range = null;
+                if (tbSingleIP.Text.TryParseIPv4(out IPAddress _address)) {
+                    if (!FormSession.TARGETS.Contains(_address))
+                    {
+                        IP_ADDRESS = _address;
+                        FormSession.TARGETS.Add(IP_ADDRESS);
+                        IP_RANGE = null;
+                        LogHandler.AddLog($"Added address to targets : {IP_ADDRESS.ToString()}");
+                        CHANGES_HAPPENED = true;
+                        Close();
+                    }
+                    else MessageBox.Show("This IP is already on the target list!");
+                }
+                else
+                {
+                    IP_ADDRESS = null;
+                    MessageBox.Show("This is not a valid IP address!");
+                }
+                
             }
             else {
-                FormSession.TARGETS.AddRange(range);
-                address = null;
+                if (tbRangeIP.Text[tbRangeIP.Text.Length - 1] == '.')                           //Remove '.' at the end if necessary
+                    tbRangeIP.Text = tbRangeIP.Text.Substring(0, tbRangeIP.Text.Length - 1);
+
+                if ($"{tbRangeIP.Text}.{numFrom.Value}".TryParseIPv4(out IPAddress _address))   //Custom TryParse to check IPv4
+                {
+                    for (int i = (int)numFrom.Value; i <= numTo.Value; i++)
+                    {
+                        IPAddress ip = IPAddress.Parse($"{tbRangeIP.Text}.{i}");
+                        if (!FormSession.TARGETS.Contains(ip))
+                        {
+                            IP_RANGE.Add(ip);
+                            continue;
+                        }
+
+                        //What if range contains one of the already added targets
+
+                        DialogResult result = MessageBox.Show($"IP address {ip.ToString()} is already on the list.", "Warning", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Warning);
+                        if (result == DialogResult.Retry) i--;
+                        else if (result == DialogResult.Ignore) continue;
+                        else return;
+                    }
+
+                    FormSession.TARGETS.AddRange(IP_RANGE);
+                    LogHandler.AddLog($"Added range of addresses to targets : {IP_RANGE[0].ToString()} to {IP_RANGE[IP_RANGE.Count - 1].ToString()}");
+                    CHANGES_HAPPENED = true;
+                    IP_ADDRESS = null;
+                    Close();
+                }
+                else
+                {
+                    IP_RANGE.Clear();
+                    MessageBox.Show("This is not a valid IP range! (Use in form of XYZ.XYZ.XYZ)");
+                }
             }
-            Close();
         }
 
         private void rbSingle_CheckedChanged(object sender, EventArgs e)
@@ -86,17 +128,7 @@ namespace SimpleNetworkScanner.Target_Classes
 
         private void tbRangeIP_Validating(object sender, CancelEventArgs e)
         {
-            if (tbRangeIP.Text[tbRangeIP.Text.Length - 1] == '.')                           //Remove '.' at the end if necessary
-                tbRangeIP.Text = tbRangeIP.Text.Substring(0, tbRangeIP.Text.Length - 1);
-
-            if ($"{tbRangeIP.Text}.{numFrom.Value}".TryParseIPv4(out IPAddress _address))   //Custom TryParse to check IPv4
-                for (int i = (int)numFrom.Value; i <= numTo.Value; i++)
-                    range.Add(IPAddress.Parse($"{tbRangeIP.Text}.{i}"));
-            else
-            {
-                range.Clear();
-                MessageBox.Show("This is not a valid IP address!");
-            }
+            
         }
 
         private void FormAddTarget_Load(object sender, EventArgs e)
