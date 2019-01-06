@@ -48,9 +48,10 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(12, 286);
+            this.btnCancel.Location = new System.Drawing.Point(9, 232);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(171, 55);
+            this.btnCancel.Size = new System.Drawing.Size(128, 45);
             this.btnCancel.TabIndex = 0;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -58,9 +59,10 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(199, 286);
+            this.btnAdd.Location = new System.Drawing.Point(149, 232);
+            this.btnAdd.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(171, 55);
+            this.btnAdd.Size = new System.Drawing.Size(128, 45);
             this.btnAdd.TabIndex = 1;
             this.btnAdd.Text = "Add Target";
             this.btnAdd.UseVisualStyleBackColor = true;
@@ -78,50 +80,56 @@
             this.panel1.Controls.Add(this.tbSingleIP);
             this.panel1.Controls.Add(this.rbRange);
             this.panel1.Controls.Add(this.rbSingle);
-            this.panel1.Location = new System.Drawing.Point(12, 12);
+            this.panel1.Location = new System.Drawing.Point(9, 10);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(358, 268);
+            this.panel1.Size = new System.Drawing.Size(268, 218);
             this.panel1.TabIndex = 2;
             // 
             // tbRangeIP
             // 
-            this.tbRangeIP.Location = new System.Drawing.Point(113, 140);
+            this.tbRangeIP.Location = new System.Drawing.Point(85, 114);
+            this.tbRangeIP.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbRangeIP.MaxLength = 11;
             this.tbRangeIP.Name = "tbRangeIP";
-            this.tbRangeIP.Size = new System.Drawing.Size(142, 22);
+            this.tbRangeIP.Size = new System.Drawing.Size(108, 20);
             this.tbRangeIP.TabIndex = 9;
             this.tbRangeIP.Validating += new System.ComponentModel.CancelEventHandler(this.tbRangeIP_Validating);
             // 
             // labRangeIP
             // 
             this.labRangeIP.AutoSize = true;
-            this.labRangeIP.Location = new System.Drawing.Point(23, 140);
+            this.labRangeIP.Location = new System.Drawing.Point(17, 114);
+            this.labRangeIP.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labRangeIP.Name = "labRangeIP";
-            this.labRangeIP.Size = new System.Drawing.Size(84, 17);
+            this.labRangeIP.Size = new System.Drawing.Size(64, 13);
             this.labRangeIP.TabIndex = 8;
             this.labRangeIP.Text = "IP Address :";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(207, 220);
+            this.label1.Location = new System.Drawing.Point(155, 179);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(33, 17);
+            this.label1.Size = new System.Drawing.Size(26, 13);
             this.label1.TabIndex = 7;
             this.label1.Text = "To :";
             // 
             // labFrom
             // 
             this.labFrom.AutoSize = true;
-            this.labFrom.Location = new System.Drawing.Point(207, 192);
+            this.labFrom.Location = new System.Drawing.Point(155, 156);
+            this.labFrom.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labFrom.Name = "labFrom";
-            this.labFrom.Size = new System.Drawing.Size(48, 17);
+            this.labFrom.Size = new System.Drawing.Size(36, 13);
             this.labFrom.TabIndex = 6;
             this.labFrom.Text = "From :";
             // 
             // numTo
             // 
-            this.numTo.Location = new System.Drawing.Point(259, 220);
+            this.numTo.Location = new System.Drawing.Point(194, 179);
+            this.numTo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.numTo.Maximum = new decimal(new int[] {
             255,
             0,
@@ -133,7 +141,7 @@
             0,
             0});
             this.numTo.Name = "numTo";
-            this.numTo.Size = new System.Drawing.Size(83, 22);
+            this.numTo.Size = new System.Drawing.Size(62, 20);
             this.numTo.TabIndex = 5;
             this.numTo.Value = new decimal(new int[] {
             255,
@@ -144,42 +152,46 @@
             // 
             // numFrom
             // 
-            this.numFrom.Location = new System.Drawing.Point(259, 191);
+            this.numFrom.Location = new System.Drawing.Point(194, 155);
+            this.numFrom.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.numFrom.Maximum = new decimal(new int[] {
             254,
             0,
             0,
             0});
             this.numFrom.Name = "numFrom";
-            this.numFrom.Size = new System.Drawing.Size(83, 22);
+            this.numFrom.Size = new System.Drawing.Size(62, 20);
             this.numFrom.TabIndex = 4;
             this.numFrom.ValueChanged += new System.EventHandler(this.numFrom_ValueChanged);
             // 
             // labSingleIP
             // 
             this.labSingleIP.AutoSize = true;
-            this.labSingleIP.Location = new System.Drawing.Point(23, 56);
+            this.labSingleIP.Location = new System.Drawing.Point(17, 46);
+            this.labSingleIP.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labSingleIP.Name = "labSingleIP";
-            this.labSingleIP.Size = new System.Drawing.Size(84, 17);
+            this.labSingleIP.Size = new System.Drawing.Size(64, 13);
             this.labSingleIP.TabIndex = 3;
             this.labSingleIP.Text = "IP Address :";
             this.labSingleIP.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tbSingleIP
             // 
-            this.tbSingleIP.Location = new System.Drawing.Point(113, 56);
+            this.tbSingleIP.Location = new System.Drawing.Point(85, 46);
+            this.tbSingleIP.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbSingleIP.MaxLength = 15;
             this.tbSingleIP.Name = "tbSingleIP";
-            this.tbSingleIP.Size = new System.Drawing.Size(230, 22);
+            this.tbSingleIP.Size = new System.Drawing.Size(174, 20);
             this.tbSingleIP.TabIndex = 2;
             this.tbSingleIP.Validating += new System.ComponentModel.CancelEventHandler(this.tbSingleIP_Validating);
             // 
             // rbRange
             // 
             this.rbRange.AutoSize = true;
-            this.rbRange.Location = new System.Drawing.Point(3, 102);
+            this.rbRange.Location = new System.Drawing.Point(2, 83);
+            this.rbRange.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.rbRange.Name = "rbRange";
-            this.rbRange.Size = new System.Drawing.Size(172, 21);
+            this.rbRange.Size = new System.Drawing.Size(133, 17);
             this.rbRange.TabIndex = 1;
             this.rbRange.TabStop = true;
             this.rbRange.Text = "Add IP Address Range";
@@ -190,9 +202,10 @@
             // 
             this.rbSingle.AutoSize = true;
             this.rbSingle.Checked = true;
-            this.rbSingle.Location = new System.Drawing.Point(3, 3);
+            this.rbSingle.Location = new System.Drawing.Point(2, 2);
+            this.rbSingle.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.rbSingle.Name = "rbSingle";
-            this.rbSingle.Size = new System.Drawing.Size(169, 21);
+            this.rbSingle.Size = new System.Drawing.Size(130, 17);
             this.rbSingle.TabIndex = 0;
             this.rbSingle.TabStop = true;
             this.rbSingle.Text = "Add Single IP Address";
@@ -201,12 +214,14 @@
             // 
             // FormAddTarget
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(382, 353);
+            this.ClientSize = new System.Drawing.Size(286, 287);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnCancel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "FormAddTarget";
             this.Text = "Add Target";
             this.panel1.ResumeLayout(false);

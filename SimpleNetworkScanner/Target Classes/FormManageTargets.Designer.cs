@@ -36,9 +36,10 @@
             // 
             // btnRemoveAll
             // 
-            this.btnRemoveAll.Location = new System.Drawing.Point(420, 12);
+            this.btnRemoveAll.Location = new System.Drawing.Point(315, 10);
+            this.btnRemoveAll.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnRemoveAll.Name = "btnRemoveAll";
-            this.btnRemoveAll.Size = new System.Drawing.Size(175, 60);
+            this.btnRemoveAll.Size = new System.Drawing.Size(131, 49);
             this.btnRemoveAll.TabIndex = 2;
             this.btnRemoveAll.Text = "Remove All Targets";
             this.btnRemoveAll.UseVisualStyleBackColor = true;
@@ -46,9 +47,10 @@
             // 
             // btnAddTarget
             // 
-            this.btnAddTarget.Location = new System.Drawing.Point(12, 12);
+            this.btnAddTarget.Location = new System.Drawing.Point(9, 10);
+            this.btnAddTarget.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnAddTarget.Name = "btnAddTarget";
-            this.btnAddTarget.Size = new System.Drawing.Size(175, 60);
+            this.btnAddTarget.Size = new System.Drawing.Size(131, 49);
             this.btnAddTarget.TabIndex = 0;
             this.btnAddTarget.Text = "Add Another Target";
             this.btnAddTarget.UseVisualStyleBackColor = true;
@@ -56,9 +58,10 @@
             // 
             // btnRemoveSelected
             // 
-            this.btnRemoveSelected.Location = new System.Drawing.Point(193, 12);
+            this.btnRemoveSelected.Location = new System.Drawing.Point(145, 10);
+            this.btnRemoveSelected.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnRemoveSelected.Name = "btnRemoveSelected";
-            this.btnRemoveSelected.Size = new System.Drawing.Size(221, 60);
+            this.btnRemoveSelected.Size = new System.Drawing.Size(166, 49);
             this.btnRemoveSelected.TabIndex = 1;
             this.btnRemoveSelected.Text = "Remove Selected Target(s)";
             this.btnRemoveSelected.UseVisualStyleBackColor = true;
@@ -67,22 +70,24 @@
             // lbTargets
             // 
             this.lbTargets.FormattingEnabled = true;
-            this.lbTargets.ItemHeight = 16;
-            this.lbTargets.Location = new System.Drawing.Point(12, 78);
+            this.lbTargets.Location = new System.Drawing.Point(9, 63);
+            this.lbTargets.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.lbTargets.Name = "lbTargets";
-            this.lbTargets.Size = new System.Drawing.Size(570, 468);
+            this.lbTargets.Size = new System.Drawing.Size(428, 381);
             this.lbTargets.Sorted = true;
             this.lbTargets.TabIndex = 3;
             // 
             // FormManageTargets
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(607, 553);
+            this.ClientSize = new System.Drawing.Size(455, 449);
             this.Controls.Add(this.lbTargets);
             this.Controls.Add(this.btnRemoveSelected);
             this.Controls.Add(this.btnAddTarget);
             this.Controls.Add(this.btnRemoveAll);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "FormManageTargets";
             this.Text = "FormManageTargets";
             this.Load += new System.EventHandler(this.FormManageTargets_Load);

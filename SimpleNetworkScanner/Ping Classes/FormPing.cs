@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using SimpleNetworkScanner;
+using SimpleNetworkScanner.Test_Data_Classes;
 
 namespace SimpleNetworkScanner.Ping_Classes
 {
@@ -58,15 +59,14 @@ namespace SimpleNetworkScanner.Ping_Classes
             if ((PingType.Dns & currentType) == PingType.Dns) pBar.Maximum += byte.Parse(Settings.GetSetting("DNS_COUNT")) * DNS_PING_AMOUNT;
             if ((PingType.Targets & currentType) == PingType.Targets) pBar.Maximum += FormSession.TARGETS.Count * TARGET_PING_AMOUNT;
 
-            lProgress.Text = "Pinging" + currentIretation + "/" + pBar.Maximum;
-            pBar.Value = 1;
+            lProgress.Text = $"Pinging {currentIretation}/{pBar.Maximum}...";
 
             try {
                 if ((PingType.Loopback & currentType) == PingType.Loopback) {
                     uint currentGood = 0, currentBad = 0;
                     for (int i = 1; i <= LOOPBACK_PING_AMOUNT; i++) {
                         pingToken.ThrowIfCancellationRequested();
-                        pingTask = Task<PingReply>.Factory.StartNew(() => ExecutePing(IPAddress.Loopback), pingToken);
+                        pingTask = Task<PingReply>.Factory.StartNew(() => GetPingReply(IPAddress.Loopback), pingToken);
                         if (pingTask.Result.Status == IPStatus.Success) {
                             pingGood++;
                             currentGood++;
@@ -76,7 +76,7 @@ namespace SimpleNetworkScanner.Ping_Classes
                             currentBad++;
                         }
                         lbInfo.Items.Add($"Loopback ping {i}/{LOOPBACK_PING_AMOUNT} : {pingTask.Result.Status.ToString()} \t| Round Trip Time : {pingTask.Result.RoundtripTime}ms");
-                        if (i != LOOPBACK_PING_AMOUNT) NextAction(); NextAction();
+                        if (i != LOOPBACK_PING_AMOUNT) NextAction();
                     }
                     LogHandler.AddLog($"Loopback Address ping(s) completed. Successful pings : {currentGood}, Unsuccessful pings : {currentBad}");
                 }
@@ -85,7 +85,7 @@ namespace SimpleNetworkScanner.Ping_Classes
                     for (int i = 1; i <= LOCALHOST_PING_AMOUNT; i++)
                     {
                         pingToken.ThrowIfCancellationRequested();
-                        pingTask = Task<PingReply>.Factory.StartNew(() => ExecutePing(StaticUtilities.GetLocalIPv4Address()), pingToken);
+                        pingTask = Task<PingReply>.Factory.StartNew(() => GetPingReply(StaticUtilities.GetLocalIPv4Address()), pingToken);
                         if (pingTask.Result.Status == IPStatus.Success)
                         {
                             pingGood++;
@@ -97,17 +97,18 @@ namespace SimpleNetworkScanner.Ping_Classes
                             currentBad++;
                         }
                         lbInfo.Items.Add($"Localhost ping {i}/{LOCALHOST_PING_AMOUNT} : {pingTask.Result.Status.ToString()} \t| Round Trip Time : {pingTask.Result.RoundtripTime}ms");
-                        if (i != LOCALHOST_PING_AMOUNT) NextAction(); NextAction();
+                        if (i != LOCALHOST_PING_AMOUNT) NextAction();
                     }
                     LogHandler.AddLog($"Localhost Address ping(s) completed. Successful pings : {currentGood}, Unsuccessful pings : {currentBad}");
                 }
                 if ((PingType.Dns & currentType) == PingType.Dns) {
                     uint currentGood = 0, currentBad = 0;
                     foreach (var dns in Settings.GetSettingsDnsAddresses()) {
-                        for (int i = 1; i <= DNS_PING_AMOUNT; i++)
+                        int i = 1;
+                        for (; i <= DNS_PING_AMOUNT; i++)
                         {
                             pingToken.ThrowIfCancellationRequested();
-                            pingTask = Task<PingReply>.Factory.StartNew(() => ExecutePing(dns), pingToken);
+                            pingTask = Task<PingReply>.Factory.StartNew(() => GetPingReply(dns), pingToken);
                             if (pingTask.Result.Status == IPStatus.Success)
                             {
                                 pingGood++;
@@ -119,19 +120,20 @@ namespace SimpleNetworkScanner.Ping_Classes
                                 currentBad++;
                             }
                             lbInfo.Items.Add($"DNS ping ({dns}) {i}/{DNS_PING_AMOUNT} : {pingTask.Result.Status.ToString()} \t| Round Trip Time : {pingTask.Result.RoundtripTime}ms");
-                            if (i != DNS_PING_AMOUNT) NextAction(); NextAction();
+                            if (i != DNS_PING_AMOUNT) NextAction();
                         }
+                        if (i != DNS_PING_AMOUNT) NextAction();
                     }    
                     LogHandler.AddLog($"DNS Addresses ping(s) completed. Successful pings : {currentGood}, Unsuccessful pings : {currentBad}");
                 }
                 if ((PingType.Targets & currentType) == PingType.Targets) {
                     uint currentGood = 0, currentBad = 0;
-                    foreach (var target in FormSession.TARGETS)
-                    {
-                        for (int i = 1; i <= TARGET_PING_AMOUNT; i++)
+                    foreach (var target in FormSession.TARGETS) {
+                        int i = 1;
+                        for (; i <= TARGET_PING_AMOUNT; i++)
                         {
                             pingToken.ThrowIfCancellationRequested();
-                            pingTask = Task<PingReply>.Factory.StartNew(() => ExecutePing(target), pingToken);
+                            pingTask = Task<PingReply>.Factory.StartNew(() => GetPingReply(target), pingToken);
                             if (pingTask.Result.Status == IPStatus.Success)
                             {
                                 pingGood++;
@@ -142,9 +144,10 @@ namespace SimpleNetworkScanner.Ping_Classes
                                 pingBad++;
                                 currentBad++;
                             }
-                            lbInfo.Items.Add($"Target ping ({target}) {i}/{TARGET_PING_AMOUNT} : {pingTask.Result.Status.ToString()} \t| Round Trip Time : {pingTask.Result.RoundtripTime}ms");
-                            if(i != TARGET_PING_AMOUNT) NextAction();
+                            lbInfo.Items.Add($"Target ping ({target})\t{i}/{TARGET_PING_AMOUNT} : {pingTask.Result.Status.ToString()} \t| Round Trip Time : {pingTask.Result.RoundtripTime}ms");
+                            if (i != TARGET_PING_AMOUNT) NextAction();
                         }
+                        if (i != TARGET_PING_AMOUNT) NextAction();
                     }
                     LogHandler.AddLog($"Target Addresses ping(s) completed. Successful pings : {currentGood}, Unsuccessful pings : {currentBad}");
                 }
@@ -155,15 +158,16 @@ namespace SimpleNetworkScanner.Ping_Classes
                 canceled = true;
                 Close();
             }
-            catch (Exception ex) { lbInfo.Items.Add($"Exception caught! {ex}"); }
+            //catch (Exception ex) { lbInfo.Items.Add($"Exception caught! {ex}"); }
 
             lProgress.Text = "Pings completed";
             btnStart.Enabled = false;
             btnExit.Text = "Exit Test";
             completed = true;
+            FormSession.TEST_DATA = GenerateData();
         }
 
-        private PingReply ExecutePing(IPAddress address) {
+        private PingReply GetPingReply(IPAddress address) {
             Ping ping = new Ping();
             PingReply reply = ping.Send(address, pingTimeout);
             ping.Dispose();
@@ -171,9 +175,17 @@ namespace SimpleNetworkScanner.Ping_Classes
         }
 
         private void NextAction() {
-            lProgress.Text = "Pinging " + ++currentIretation + "/" + pBar.Maximum;
-            pBar.Value = ++pBar.Value;
+            currentIretation++;
+            pBar.Value = (int)currentIretation > pBar.Maximum ? pBar.Maximum : (int)currentIretation; 
+            lProgress.Text = $"Pinging {currentIretation}/{pBar.Maximum}...";    
             lbInfo.TopIndex = lbInfo.Items.Count > 10 ? lbInfo.Items.Count - 1 : 0;
+        }
+
+        private PingTestData GenerateData() {
+            PingTestData data = new PingTestData(TestDataChartType.Doughnut);
+            data.AddData("Successful pings", (int)pingGood);
+            data.AddData("Unsuccessful pings", (int)pingBad);
+            return data;
         }
 
         private void btnStart_Click(object sender, EventArgs e)

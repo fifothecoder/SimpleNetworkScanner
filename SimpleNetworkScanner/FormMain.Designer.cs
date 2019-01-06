@@ -35,9 +35,10 @@
             // 
             // btnCreate
             // 
-            this.btnCreate.Location = new System.Drawing.Point(150, 30);
+            this.btnCreate.Location = new System.Drawing.Point(112, 24);
+            this.btnCreate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnCreate.Name = "btnCreate";
-            this.btnCreate.Size = new System.Drawing.Size(300, 75);
+            this.btnCreate.Size = new System.Drawing.Size(225, 61);
             this.btnCreate.TabIndex = 0;
             this.btnCreate.Text = "Create a new session";
             this.btnCreate.UseVisualStyleBackColor = true;
@@ -45,9 +46,10 @@
             // 
             // btnOpen
             // 
-            this.btnOpen.Location = new System.Drawing.Point(150, 225);
+            this.btnOpen.Location = new System.Drawing.Point(112, 183);
+            this.btnOpen.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(300, 75);
+            this.btnOpen.Size = new System.Drawing.Size(225, 61);
             this.btnOpen.TabIndex = 2;
             this.btnOpen.Text = "Open session from file";
             this.btnOpen.UseVisualStyleBackColor = true;
@@ -55,9 +57,10 @@
             // 
             // btnLast
             // 
-            this.btnLast.Location = new System.Drawing.Point(150, 125);
+            this.btnLast.Location = new System.Drawing.Point(112, 102);
+            this.btnLast.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnLast.Name = "btnLast";
-            this.btnLast.Size = new System.Drawing.Size(300, 75);
+            this.btnLast.Size = new System.Drawing.Size(225, 61);
             this.btnLast.TabIndex = 1;
             this.btnLast.Text = "Open last session";
             this.btnLast.UseVisualStyleBackColor = true;
@@ -65,12 +68,14 @@
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(582, 353);
+            this.ClientSize = new System.Drawing.Size(436, 287);
             this.Controls.Add(this.btnLast);
             this.Controls.Add(this.btnOpen);
             this.Controls.Add(this.btnCreate);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "FormMain";
             this.Text = "Simple Network Scanner";
             this.Load += new System.EventHandler(this.FormMain_Load);

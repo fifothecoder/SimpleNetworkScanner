@@ -1,28 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using SimpleNetworkScanner.Ping_Classes;
 using SimpleNetworkScanner.Target_Classes;
+using SimpleNetworkScanner.Test_Data_Classes;
 
 
 namespace SimpleNetworkScanner
 {
+
     public partial class FormSession : Form
     {
         private string _SESSION_PATH;
 
-        public static List<IPAddress> TARGETS;      
+        public static ITestData TEST_DATA;
+        public static List<IPAddress> TARGETS;
+
 
         public FormSession(string path)
         {
             InitializeComponent();
             _SESSION_PATH = path;
             TARGETS = new List<IPAddress>();
+            TEST_DATA = null;
         }
 
         private void FormSession_Load(object sender, EventArgs e)
@@ -110,6 +117,33 @@ namespace SimpleNetworkScanner
                 lbSessionLogs.Items.Add(LogHandler.LOG_CACHE[i]);
         }
 
+        private void RefreshGraph() {
+            if (TEST_DATA == null) chLastAction.Enabled = false;
+            else {
+                switch (TEST_DATA.GetChartType()) {
+                    case TestDataChartType.Pie:
+                        chLastAction.Series[0].ChartType = SeriesChartType.Pie;
+                        break;
+                    case TestDataChartType.Column:
+                        chLastAction.Series[0].ChartType = SeriesChartType.Column;
+                        break;
+                    case TestDataChartType.Doughnut:
+                        chLastAction.Series[0].ChartType = SeriesChartType.Doughnut;
+                        break;
+                }
+
+                chLastAction.Series[0].Points.Clear();
+
+                foreach (var record in TEST_DATA.GetData()) {
+                    DataPoint point = new DataPoint(0, record.Value);
+                    point.LegendText = record.Key;
+                    chLastAction.Series[0].Points.Add(point);
+                }
+                
+                chLastAction.Enabled = true;
+            }
+        }
+
         private string GetCurrentSaveString()
         {
             //Compose the parts here
@@ -160,7 +194,7 @@ namespace SimpleNetworkScanner
                     MessageBox.Show("You need to set the name for the file!");
                     //Maybe return new invocation of this method?
                 }
-                Text = _SESSION_PATH = saveFileDialog.FileName;
+                if(saveFileDialog.FileName != string.Empty) Text = _SESSION_PATH = saveFileDialog.FileName;
                 Settings.SetSetting("LAST_SAVE", saveFileDialog.FileName);
 
             }
@@ -195,9 +229,11 @@ namespace SimpleNetworkScanner
                 MessageBox.Show("You need to set the name for the file!");
                 //Maybe return new invocation of this method?
             }
-            _SESSION_PATH = saveFileDialog.FileName;
-            Settings.SetSetting("LAST_SAVE", saveFileDialog.FileName);
-            Text = _SESSION_PATH;
+            if (saveFileDialog.FileName != string.Empty) {
+                _SESSION_PATH = saveFileDialog.FileName;
+                Settings.SetSetting("LAST_SAVE", saveFileDialog.FileName);
+                Text = _SESSION_PATH;
+            }
 
         }
 
@@ -244,6 +280,7 @@ namespace SimpleNetworkScanner
             FormPing formPing = new FormPing(PingType.Loopback);
             formPing.FormClosed += (x, y) => {
                 RefreshLogs();
+                RefreshGraph();
                 if (formPing.completed)
                 {
                     EnableSavePrompt();
@@ -257,6 +294,7 @@ namespace SimpleNetworkScanner
             FormPing formPing = new FormPing(PingType.Localhost);
             formPing.FormClosed += (x, y) => {
                 RefreshLogs();
+                RefreshGraph();
                 if (formPing.completed)
                 {
                     EnableSavePrompt();
@@ -270,6 +308,7 @@ namespace SimpleNetworkScanner
             FormPing formPing = new FormPing(PingType.Dns);
             formPing.FormClosed += (x, y) => {
                 RefreshLogs();
+                RefreshGraph();
                 if (formPing.completed)
                 {
                     EnableSavePrompt();
@@ -283,6 +322,7 @@ namespace SimpleNetworkScanner
             FormPing formPing = new FormPing(PingType.Targets);
             formPing.FormClosed += (x, y) => {
                 RefreshLogs();
+                RefreshGraph();
                 if (formPing.completed)
                 {
                     EnableSavePrompt();

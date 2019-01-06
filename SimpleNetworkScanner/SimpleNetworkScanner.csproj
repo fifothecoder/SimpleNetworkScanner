@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -81,6 +82,8 @@
     <Compile Include="Target Classes\FormManageTargets.Designer.cs">
       <DependentUpon>FormManageTargets.cs</DependentUpon>
     </Compile>
+    <Compile Include="Test Data Classes\PingTestData.cs" />
+    <Compile Include="Test Data Classes\TestData.cs" />
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>

@@ -48,12 +48,12 @@
             // 
             this.pBar.Location = new System.Drawing.Point(147, 12);
             this.pBar.Name = "pBar";
-            this.pBar.Size = new System.Drawing.Size(225, 49);
+            this.pBar.Size = new System.Drawing.Size(235, 49);
             this.pBar.TabIndex = 1;
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(199, 209);
+            this.btnExit.Location = new System.Drawing.Point(207, 209);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(175, 40);
             this.btnExit.TabIndex = 2;
@@ -76,19 +76,20 @@
             this.lbInfo.FormattingEnabled = true;
             this.lbInfo.Location = new System.Drawing.Point(12, 67);
             this.lbInfo.Name = "lbInfo";
-            this.lbInfo.Size = new System.Drawing.Size(360, 134);
+            this.lbInfo.Size = new System.Drawing.Size(370, 134);
             this.lbInfo.TabIndex = 4;
             // 
             // FormPing
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 261);
+            this.ClientSize = new System.Drawing.Size(394, 261);
             this.Controls.Add(this.lbInfo);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.lProgress);
             this.Controls.Add(this.pBar);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FormPing";
             this.Text = "FormPing";
             this.ResumeLayout(false);

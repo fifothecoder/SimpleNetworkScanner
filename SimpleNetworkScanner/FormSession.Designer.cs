@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.topMenu = new System.Windows.Forms.MenuStrip();
             this.sessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -35,19 +38,22 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.targetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addTargetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.manageTargetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pingLoopbackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pingLocalhostToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pingDNSServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pingTargetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.targetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addTargetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.manageTargetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lbSessionLogs = new System.Windows.Forms.ListBox();
-            this.TCPScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.customPingScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TCPScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lookupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lbSessionLogs = new System.Windows.Forms.ListBox();
+            this.chLastAction = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.briefTCPTargetsScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.topMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chLastAction)).BeginInit();
             this.SuspendLayout();
             // 
             // topMenu
@@ -80,35 +86,58 @@
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.saveToolStripMenuItem.Text = "Save...";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.openToolStripMenuItem.Text = "Open...";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.settingsToolStripMenuItem.Text = "Settings...";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.exitToolStripMenuItem.Text = "Exit...";
+            // 
+            // targetsToolStripMenuItem
+            // 
+            this.targetsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addTargetToolStripMenuItem,
+            this.manageTargetsToolStripMenuItem});
+            this.targetsToolStripMenuItem.Name = "targetsToolStripMenuItem";
+            this.targetsToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.targetsToolStripMenuItem.Text = "Targets";
+            // 
+            // addTargetToolStripMenuItem
+            // 
+            this.addTargetToolStripMenuItem.Name = "addTargetToolStripMenuItem";
+            this.addTargetToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.addTargetToolStripMenuItem.Text = "Add Target...";
+            this.addTargetToolStripMenuItem.Click += new System.EventHandler(this.addTargetToolStripMenuItem_Click);
+            // 
+            // manageTargetsToolStripMenuItem
+            // 
+            this.manageTargetsToolStripMenuItem.Name = "manageTargetsToolStripMenuItem";
+            this.manageTargetsToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.manageTargetsToolStripMenuItem.Text = "Manage Targets...";
+            this.manageTargetsToolStripMenuItem.Click += new System.EventHandler(this.manageTargetsToolStripMenuItem_Click);
             // 
             // pingToolStripMenuItem
             // 
@@ -125,74 +154,44 @@
             // pingLoopbackToolStripMenuItem
             // 
             this.pingLoopbackToolStripMenuItem.Name = "pingLoopbackToolStripMenuItem";
-            this.pingLoopbackToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pingLoopbackToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.pingLoopbackToolStripMenuItem.Text = "Ping Loopback...";
             this.pingLoopbackToolStripMenuItem.Click += new System.EventHandler(this.pingLoopbackToolStripMenuItem_Click);
             // 
             // pingLocalhostToolStripMenuItem
             // 
             this.pingLocalhostToolStripMenuItem.Name = "pingLocalhostToolStripMenuItem";
-            this.pingLocalhostToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pingLocalhostToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.pingLocalhostToolStripMenuItem.Text = "Ping Localhost...";
             this.pingLocalhostToolStripMenuItem.Click += new System.EventHandler(this.pingLocalhostToolStripMenuItem_Click);
             // 
             // pingDNSServerToolStripMenuItem
             // 
             this.pingDNSServerToolStripMenuItem.Name = "pingDNSServerToolStripMenuItem";
-            this.pingDNSServerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pingDNSServerToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.pingDNSServerToolStripMenuItem.Text = "Ping DNS Server...";
             this.pingDNSServerToolStripMenuItem.Click += new System.EventHandler(this.pingDNSServerToolStripMenuItem_Click);
             // 
             // pingTargetsToolStripMenuItem
             // 
             this.pingTargetsToolStripMenuItem.Name = "pingTargetsToolStripMenuItem";
-            this.pingTargetsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pingTargetsToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.pingTargetsToolStripMenuItem.Text = "Ping Targets...";
             this.pingTargetsToolStripMenuItem.Click += new System.EventHandler(this.pingTargetsToolStripMenuItem_Click);
-            // 
-            // targetsToolStripMenuItem
-            // 
-            this.targetsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addTargetToolStripMenuItem,
-            this.manageTargetsToolStripMenuItem});
-            this.targetsToolStripMenuItem.Name = "targetsToolStripMenuItem";
-            this.targetsToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
-            this.targetsToolStripMenuItem.Text = "Targets";
-            // 
-            // addTargetToolStripMenuItem
-            // 
-            this.addTargetToolStripMenuItem.Name = "addTargetToolStripMenuItem";
-            this.addTargetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.addTargetToolStripMenuItem.Text = "Add Target...";
-            this.addTargetToolStripMenuItem.Click += new System.EventHandler(this.addTargetToolStripMenuItem_Click);
-            // 
-            // manageTargetsToolStripMenuItem
-            // 
-            this.manageTargetsToolStripMenuItem.Name = "manageTargetsToolStripMenuItem";
-            this.manageTargetsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.manageTargetsToolStripMenuItem.Text = "Manage Targets...";
-            this.manageTargetsToolStripMenuItem.Click += new System.EventHandler(this.manageTargetsToolStripMenuItem_Click);
-            // 
-            // lbSessionLogs
-            // 
-            this.lbSessionLogs.FormattingEnabled = true;
-            this.lbSessionLogs.Location = new System.Drawing.Point(9, 262);
-            this.lbSessionLogs.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.lbSessionLogs.Name = "lbSessionLogs";
-            this.lbSessionLogs.Size = new System.Drawing.Size(571, 95);
-            this.lbSessionLogs.TabIndex = 1;
-            // 
-            // TCPScanToolStripMenuItem
-            // 
-            this.TCPScanToolStripMenuItem.Name = "TCPScanToolStripMenuItem";
-            this.TCPScanToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
-            this.TCPScanToolStripMenuItem.Text = "TCP Scan";
             // 
             // customPingScanToolStripMenuItem
             // 
             this.customPingScanToolStripMenuItem.Name = "customPingScanToolStripMenuItem";
             this.customPingScanToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.customPingScanToolStripMenuItem.Text = "Custom Ping Scan";
+            this.customPingScanToolStripMenuItem.Text = "Custom Ping Scan...";
+            // 
+            // TCPScanToolStripMenuItem
+            // 
+            this.TCPScanToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.briefTCPTargetsScanToolStripMenuItem});
+            this.TCPScanToolStripMenuItem.Name = "TCPScanToolStripMenuItem";
+            this.TCPScanToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
+            this.TCPScanToolStripMenuItem.Text = "TCP Scan";
             // 
             // lookupToolStripMenuItem
             // 
@@ -200,20 +199,61 @@
             this.lookupToolStripMenuItem.Size = new System.Drawing.Size(115, 20);
             this.lookupToolStripMenuItem.Text = "Lookup Addresses";
             // 
+            // lbSessionLogs
+            // 
+            this.lbSessionLogs.FormattingEnabled = true;
+            this.lbSessionLogs.Location = new System.Drawing.Point(9, 262);
+            this.lbSessionLogs.Margin = new System.Windows.Forms.Padding(2);
+            this.lbSessionLogs.Name = "lbSessionLogs";
+            this.lbSessionLogs.Size = new System.Drawing.Size(571, 95);
+            this.lbSessionLogs.TabIndex = 1;
+            // 
+            // chLastAction
+            // 
+            this.chLastAction.BackColor = System.Drawing.Color.Transparent;
+            chartArea3.BackColor = System.Drawing.Color.Transparent;
+            chartArea3.Name = "AreaMain";
+            this.chLastAction.ChartAreas.Add(chartArea3);
+            legend3.BackColor = System.Drawing.Color.Transparent;
+            legend3.IsTextAutoFit = false;
+            legend3.Name = "MainLegend";
+            this.chLastAction.Legends.Add(legend3);
+            this.chLastAction.Location = new System.Drawing.Point(12, 27);
+            this.chLastAction.Name = "chLastAction";
+            this.chLastAction.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
+            series3.ChartArea = "AreaMain";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
+            series3.Legend = "MainLegend";
+            series3.Name = "MainSeries";
+            this.chLastAction.Series.Add(series3);
+            this.chLastAction.Size = new System.Drawing.Size(295, 230);
+            this.chLastAction.TabIndex = 2;
+            this.chLastAction.Text = "chLastAction";
+            // 
+            // briefTCPTargetsScanToolStripMenuItem
+            // 
+            this.briefTCPTargetsScanToolStripMenuItem.Name = "briefTCPTargetsScanToolStripMenuItem";
+            this.briefTCPTargetsScanToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.briefTCPTargetsScanToolStripMenuItem.Text = "Brief TCP Targets Scan";
+            // 
             // FormSession
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(600, 366);
+            this.Controls.Add(this.chLastAction);
             this.Controls.Add(this.lbSessionLogs);
             this.Controls.Add(this.topMenu);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.topMenu;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
+            this.MaximizeBox = false;
             this.Name = "FormSession";
             this.Text = "Unsaved Session";
             this.Load += new System.EventHandler(this.FormSession_Load);
             this.topMenu.ResumeLayout(false);
             this.topMenu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chLastAction)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -240,5 +280,7 @@
         private System.Windows.Forms.ToolStripMenuItem TCPScanToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem customPingScanToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem lookupToolStripMenuItem;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chLastAction;
+        private System.Windows.Forms.ToolStripMenuItem briefTCPTargetsScanToolStripMenuItem;
     }
 }
