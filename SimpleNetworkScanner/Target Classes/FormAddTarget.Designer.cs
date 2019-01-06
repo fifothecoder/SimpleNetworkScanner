@@ -209,7 +209,6 @@
             this.Controls.Add(this.btnCancel);
             this.Name = "FormAddTarget";
             this.Text = "Add Target";
-            this.Load += new System.EventHandler(this.FormAddTarget_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTo)).EndInit();

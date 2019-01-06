@@ -130,10 +130,5 @@ namespace SimpleNetworkScanner.Target_Classes
         {
             
         }
-
-        private void FormAddTarget_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

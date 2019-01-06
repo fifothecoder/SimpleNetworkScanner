@@ -55,10 +55,13 @@ namespace SimpleNetworkScanner
                 using (StreamWriter writer = new StreamWriter(Settings.SETTINGS_PATH))
                 {
                     writer.WriteLine("WIN_SIZE 600x400");
+                    writer.WriteLine("DNS_COUNT 2");
+                    writer.WriteLine("DNS_RECORD_1 8.8.8.8");
+                    writer.WriteLine("DNS_RECORD_2 8.8.4.4");
+                    writer.WriteLine("PING_TIMEOUT 1500");
                 }
             }
             catch (IOException) { throw new Exception("Error occured while creating the settings file!"); }
-            catch (Exception) { throw; }
         }
 
         private bool CheckSettingsCorrupted()

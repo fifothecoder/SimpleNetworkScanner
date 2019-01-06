@@ -6,6 +6,7 @@ using System.Net;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SimpleNetworkScanner.Ping_Classes;
 using SimpleNetworkScanner.Target_Classes;
 
 
@@ -15,8 +16,7 @@ namespace SimpleNetworkScanner
     {
         private string _SESSION_PATH;
 
-        public static List<IPAddress> TARGETS;
-        
+        public static List<IPAddress> TARGETS;      
 
         public FormSession(string path)
         {
@@ -237,5 +237,60 @@ namespace SimpleNetworkScanner
             };
             formManageTargets.ShowDialog();
         }
+
+        #region Ping Toolstrip
+        private void pingLoopbackToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormPing formPing = new FormPing(PingType.Loopback);
+            formPing.FormClosed += (x, y) => {
+                RefreshLogs();
+                if (formPing.completed)
+                {
+                    EnableSavePrompt();
+                }
+            };
+            formPing.ShowDialog();
+        }
+
+        private void pingLocalhostToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormPing formPing = new FormPing(PingType.Localhost);
+            formPing.FormClosed += (x, y) => {
+                RefreshLogs();
+                if (formPing.completed)
+                {
+                    EnableSavePrompt();
+                }
+            };
+            formPing.ShowDialog();
+        }
+
+        private void pingDNSServerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormPing formPing = new FormPing(PingType.Dns);
+            formPing.FormClosed += (x, y) => {
+                RefreshLogs();
+                if (formPing.completed)
+                {
+                    EnableSavePrompt();
+                }
+            };
+            formPing.ShowDialog();
+        }
+
+        private void pingTargetsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormPing formPing = new FormPing(PingType.Targets);
+            formPing.FormClosed += (x, y) => {
+                RefreshLogs();
+                if (formPing.completed)
+                {
+                    EnableSavePrompt();
+                }
+            };
+            formPing.ShowDialog();
+        }
+        #endregion
+
     }
 }
