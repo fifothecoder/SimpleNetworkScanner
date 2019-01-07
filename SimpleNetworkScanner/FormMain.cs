@@ -59,6 +59,8 @@ namespace SimpleNetworkScanner
                     writer.WriteLine("DNS_RECORD_1 8.8.8.8");
                     writer.WriteLine("DNS_RECORD_2 8.8.4.4");
                     writer.WriteLine("PING_TIMEOUT 1500");
+                    writer.WriteLine("TCP_TIMEOUT 1500");
+                    writer.WriteLine("BRIEF_PORTS 22,23,80,443");
                 }
             }
             catch (IOException) { throw new Exception("Error occured while creating the settings file!"); }
@@ -108,7 +110,7 @@ namespace SimpleNetworkScanner
 
         private void btnOpen_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "Session Data|*session", DefaultExt = "session", Title = "Open Session" };
+            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "Session ChartData|*session", DefaultExt = "session", Title = "Open Session" };
             if(openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 FormSession session = new FormSession(openFileDialog.FileName);

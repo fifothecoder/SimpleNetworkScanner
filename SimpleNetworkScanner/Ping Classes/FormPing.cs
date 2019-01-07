@@ -203,5 +203,6 @@ namespace SimpleNetworkScanner.Ping_Classes
                 Close();
             }
         }
+
     }
 }

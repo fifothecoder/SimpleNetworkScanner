@@ -6,18 +6,21 @@ using System.Threading.Tasks;
 
 namespace SimpleNetworkScanner.Test_Data_Classes
 {
-    public sealed class PingTestData : TestData {
-
-        public PingTestData(TestDataChartType chartType) {
-            ChartType = chartType; 
+    public sealed class TCPTestData : TestData
+    {
+        public TCPTestData(TestDataChartType chartType)
+        {
+            ChartType = chartType;
             ChartData = new Dictionary<string, int>();
         }
 
-        public override Dictionary<string, int> GetChartData() {
+        public override Dictionary<string, int> GetChartData()
+        {
             return ChartData;
         }
 
-        public override void AddData(string type, int value) {
+        public override void AddData(string type, int value)
+        {
             ChartData.Add(type, value);
         }
 

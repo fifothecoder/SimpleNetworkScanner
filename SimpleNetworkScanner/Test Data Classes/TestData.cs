@@ -10,16 +10,16 @@ namespace SimpleNetworkScanner.Test_Data_Classes
 
     public abstract class TestData : ITestData {
 
-        protected Dictionary<string, int> Data;
+        protected Dictionary<string, int> ChartData;
         protected TestDataChartType ChartType;
 
-        public abstract Dictionary<string, int> GetData();
+        public abstract Dictionary<string, int> GetChartData();
         public abstract void AddData(string s, int i);
         public abstract TestDataChartType GetChartType();
     }
 
     public interface ITestData {
-        Dictionary<string, int> GetData();
+        Dictionary<string, int> GetChartData();
         void AddData(string s, int i);
         TestDataChartType GetChartType();
     }

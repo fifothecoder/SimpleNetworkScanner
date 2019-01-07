@@ -4,6 +4,7 @@ using System.Linq;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace SimpleNetworkScanner
 {
@@ -18,7 +19,7 @@ namespace SimpleNetworkScanner
          */
 
         public const string SETTINGS_PATH = "settings.sns";
-        public const uint SETTINGS_COUNT = 12;
+        public const uint SETTINGS_COUNT = 16;
         private static Dictionary<string, string> SETTINGS_LIST;
 
         public static void InitSettings()
@@ -29,15 +30,15 @@ namespace SimpleNetworkScanner
                 while (!reader.EndOfStream)
                 {
                     string key = reader.ReadWord();
-                    if (key == string.Empty) break;
-                    else SETTINGS_LIST.Add(key, reader.ReadLine().Trim());
+                    if (key == String.Empty) break;
+                    SETTINGS_LIST.Add(key, reader.ReadLine().Trim());
                 }
             }
 
             if (SETTINGS_LIST.ContainsKey("LAST_SAVE") && !File.Exists(SETTINGS_LIST["LAST_SAVE"])) SETTINGS_LIST.Remove("LAST_SAVE");
         }
         public static bool IsValidSetting(string s) {
-            bool b = new[] {"WIN_SIZE", "LAST_SAVE", "DNS_COUNT", "PING_TIMEOUT"}.Contains(s.ToUpper());
+            bool b = new[] {"WIN_SIZE", "LAST_SAVE", "DNS_COUNT", "PING_TIMEOUT", "TCP_TIMEOUT", "BRIEF_PORTS"}.Contains(s.ToUpper());
             return b || s.ToUpper().Substring(0, 11) == "DNS_RECORD_";
         }
 
@@ -61,8 +62,8 @@ namespace SimpleNetworkScanner
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show("Unable to save settings file!");
-                System.Windows.Forms.MessageBox.Show(ex.ToString());
+                MessageBox.Show("Unable to save settings file!");
+                MessageBox.Show(ex.ToString());
             }
         }
 
@@ -73,6 +74,26 @@ namespace SimpleNetworkScanner
                 if(record.Key.Length > 11 && record.Key.Substring(0, 11) == "DNS_RECORD_") dns.Add(IPAddress.Parse(record.Value));
             }
             return dns.ToArray();
+        }
+
+        public static int[] GetBriefPorts() {
+            List<int> ports = new List<int>();
+            string toSplit = SETTINGS_LIST["BRIEF_PORTS"].Trim();
+            string number = string.Empty;
+
+            for (int i = 0; i < toSplit.Length; i++) {
+                
+                if (toSplit[i] >= 48 && toSplit[i] <= 57) {     //Split string by ','
+                    number += toSplit[i];   //Add if number
+                }
+                else {
+                    ports.Add(int.Parse(number));
+                    number = string.Empty;
+                }
+            }
+
+            ports.Add(int.Parse(number));   //Add last port
+            return ports.ToArray();
         }
     }
 }

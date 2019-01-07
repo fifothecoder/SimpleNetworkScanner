@@ -82,7 +82,14 @@
     <Compile Include="Target Classes\FormManageTargets.Designer.cs">
       <DependentUpon>FormManageTargets.cs</DependentUpon>
     </Compile>
+    <Compile Include="TCP Scan Classes\FormTCPScan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TCP Scan Classes\FormTCPScan.Designer.cs">
+      <DependentUpon>FormTCPScan.cs</DependentUpon>
+    </Compile>
     <Compile Include="Test Data Classes\PingTestData.cs" />
+    <Compile Include="Test Data Classes\TCPTestData.cs" />
     <Compile Include="Test Data Classes\TestData.cs" />
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
@@ -107,6 +114,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Target Classes\FormManageTargets.resx">
       <DependentUpon>FormManageTargets.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TCP Scan Classes\FormTCPScan.resx">
+      <DependentUpon>FormTCPScan.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

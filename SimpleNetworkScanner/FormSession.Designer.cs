@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.topMenu = new System.Windows.Forms.MenuStrip();
             this.sessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,10 +48,10 @@
             this.pingTargetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.customPingScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TCPScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.briefTCPScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lookupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lbSessionLogs = new System.Windows.Forms.ListBox();
             this.chLastAction = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.briefTCPTargetsScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.topMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chLastAction)).BeginInit();
             this.SuspendLayout();
@@ -86,35 +86,37 @@
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "Save...";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "Open...";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
+            this.settingsToolStripMenuItem.Enabled = false;
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.settingsToolStripMenuItem.Text = "Settings...";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit...";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // targetsToolStripMenuItem
             // 
@@ -154,33 +156,34 @@
             // pingLoopbackToolStripMenuItem
             // 
             this.pingLoopbackToolStripMenuItem.Name = "pingLoopbackToolStripMenuItem";
-            this.pingLoopbackToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.pingLoopbackToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.pingLoopbackToolStripMenuItem.Text = "Ping Loopback...";
             this.pingLoopbackToolStripMenuItem.Click += new System.EventHandler(this.pingLoopbackToolStripMenuItem_Click);
             // 
             // pingLocalhostToolStripMenuItem
             // 
             this.pingLocalhostToolStripMenuItem.Name = "pingLocalhostToolStripMenuItem";
-            this.pingLocalhostToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.pingLocalhostToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.pingLocalhostToolStripMenuItem.Text = "Ping Localhost...";
             this.pingLocalhostToolStripMenuItem.Click += new System.EventHandler(this.pingLocalhostToolStripMenuItem_Click);
             // 
             // pingDNSServerToolStripMenuItem
             // 
             this.pingDNSServerToolStripMenuItem.Name = "pingDNSServerToolStripMenuItem";
-            this.pingDNSServerToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.pingDNSServerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.pingDNSServerToolStripMenuItem.Text = "Ping DNS Server...";
             this.pingDNSServerToolStripMenuItem.Click += new System.EventHandler(this.pingDNSServerToolStripMenuItem_Click);
             // 
             // pingTargetsToolStripMenuItem
             // 
             this.pingTargetsToolStripMenuItem.Name = "pingTargetsToolStripMenuItem";
-            this.pingTargetsToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.pingTargetsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.pingTargetsToolStripMenuItem.Text = "Ping Targets...";
             this.pingTargetsToolStripMenuItem.Click += new System.EventHandler(this.pingTargetsToolStripMenuItem_Click);
             // 
             // customPingScanToolStripMenuItem
             // 
+            this.customPingScanToolStripMenuItem.Enabled = false;
             this.customPingScanToolStripMenuItem.Name = "customPingScanToolStripMenuItem";
             this.customPingScanToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.customPingScanToolStripMenuItem.Text = "Custom Ping Scan...";
@@ -188,13 +191,21 @@
             // TCPScanToolStripMenuItem
             // 
             this.TCPScanToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.briefTCPTargetsScanToolStripMenuItem});
+            this.briefTCPScanToolStripMenuItem});
             this.TCPScanToolStripMenuItem.Name = "TCPScanToolStripMenuItem";
             this.TCPScanToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
             this.TCPScanToolStripMenuItem.Text = "TCP Scan";
             // 
+            // briefTCPScanToolStripMenuItem
+            // 
+            this.briefTCPScanToolStripMenuItem.Name = "briefTCPScanToolStripMenuItem";
+            this.briefTCPScanToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.briefTCPScanToolStripMenuItem.Text = "Brief TCP Targets Scan...";
+            this.briefTCPScanToolStripMenuItem.Click += new System.EventHandler(this.briefTCPScanToolStripMenuItem_Click);
+            // 
             // lookupToolStripMenuItem
             // 
+            this.lookupToolStripMenuItem.Enabled = false;
             this.lookupToolStripMenuItem.Name = "lookupToolStripMenuItem";
             this.lookupToolStripMenuItem.Size = new System.Drawing.Size(115, 20);
             this.lookupToolStripMenuItem.Text = "Lookup Addresses";
@@ -211,30 +222,24 @@
             // chLastAction
             // 
             this.chLastAction.BackColor = System.Drawing.Color.Transparent;
-            chartArea3.BackColor = System.Drawing.Color.Transparent;
-            chartArea3.Name = "AreaMain";
-            this.chLastAction.ChartAreas.Add(chartArea3);
-            legend3.BackColor = System.Drawing.Color.Transparent;
-            legend3.IsTextAutoFit = false;
-            legend3.Name = "MainLegend";
-            this.chLastAction.Legends.Add(legend3);
+            chartArea1.BackColor = System.Drawing.Color.Transparent;
+            chartArea1.Name = "AreaMain";
+            this.chLastAction.ChartAreas.Add(chartArea1);
+            legend1.BackColor = System.Drawing.Color.Transparent;
+            legend1.IsTextAutoFit = false;
+            legend1.Name = "MainLegend";
+            this.chLastAction.Legends.Add(legend1);
             this.chLastAction.Location = new System.Drawing.Point(12, 27);
             this.chLastAction.Name = "chLastAction";
             this.chLastAction.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
-            series3.ChartArea = "AreaMain";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
-            series3.Legend = "MainLegend";
-            series3.Name = "MainSeries";
-            this.chLastAction.Series.Add(series3);
+            series1.ChartArea = "AreaMain";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
+            series1.Legend = "MainLegend";
+            series1.Name = "MainSeries";
+            this.chLastAction.Series.Add(series1);
             this.chLastAction.Size = new System.Drawing.Size(295, 230);
             this.chLastAction.TabIndex = 2;
             this.chLastAction.Text = "chLastAction";
-            // 
-            // briefTCPTargetsScanToolStripMenuItem
-            // 
-            this.briefTCPTargetsScanToolStripMenuItem.Name = "briefTCPTargetsScanToolStripMenuItem";
-            this.briefTCPTargetsScanToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
-            this.briefTCPTargetsScanToolStripMenuItem.Text = "Brief TCP Targets Scan";
             // 
             // FormSession
             // 
@@ -281,6 +286,6 @@
         private System.Windows.Forms.ToolStripMenuItem customPingScanToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem lookupToolStripMenuItem;
         private System.Windows.Forms.DataVisualization.Charting.Chart chLastAction;
-        private System.Windows.Forms.ToolStripMenuItem briefTCPTargetsScanToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem briefTCPScanToolStripMenuItem;
     }
 }

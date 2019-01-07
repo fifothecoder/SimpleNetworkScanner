@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using SimpleNetworkScanner.Ping_Classes;
 using SimpleNetworkScanner.Target_Classes;
+using SimpleNetworkScanner.TCP_Scan_Classes;
 using SimpleNetworkScanner.Test_Data_Classes;
 
 
@@ -134,9 +135,10 @@ namespace SimpleNetworkScanner
 
                 chLastAction.Series[0].Points.Clear();
 
-                foreach (var record in TEST_DATA.GetData()) {
+                foreach (var record in TEST_DATA.GetChartData()) {
                     DataPoint point = new DataPoint(0, record.Value);
                     point.LegendText = record.Key;
+                    point.Label = record.Value.ToString();
                     chLastAction.Series[0].Points.Add(point);
                 }
                 
@@ -174,11 +176,13 @@ namespace SimpleNetworkScanner
             //Disable the prompt upon exit
         }
 
+        #region Session Toolstrip
+
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (_SESSION_PATH == string.Empty)
             {
-                SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = "Session Data|*session", DefaultExt = "session", Title = "Save Current Session" };
+                SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = "Session ChartData|*session", DefaultExt = "session", Title = "Save Current Session" };
                 saveFileDialog.ShowDialog();
                 if (saveFileDialog.FileName != string.Empty)
                 {
@@ -212,7 +216,7 @@ namespace SimpleNetworkScanner
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Session Data|*session";
+            saveFileDialog.Filter = "Session ChartData|*session";
             saveFileDialog.DefaultExt = "session";
             saveFileDialog.Title = "Save Current Session";
             saveFileDialog.ShowDialog();
@@ -239,7 +243,7 @@ namespace SimpleNetworkScanner
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "Session Data|*session", DefaultExt = "session", Title = "Open Session" };
+            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "Session ChartData|*session", DefaultExt = "session", Title = "Open Session" };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 FormSession session = new FormSession(openFileDialog.FileName);
@@ -253,6 +257,12 @@ namespace SimpleNetworkScanner
                 //Maybe return new invocation of this method?
             }
         }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e) { Close(); }
+
+        #endregion
+
+        #region Target Toolstrip
 
         private void addTargetToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -273,6 +283,8 @@ namespace SimpleNetworkScanner
             };
             formManageTargets.ShowDialog();
         }
+
+        #endregion
 
         #region Ping Toolstrip
         private void pingLoopbackToolStripMenuItem_Click(object sender, EventArgs e)
@@ -332,5 +344,24 @@ namespace SimpleNetworkScanner
         }
         #endregion
 
+        #region TCP Toolstrip
+
+        private void briefTCPScanToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormTCPScan formTCP = new FormTCPScan(TCPScanType.Brief);
+            formTCP.FormClosed += (x, y) => {
+                RefreshLogs();
+                RefreshGraph();
+                if (formTCP.completed)
+                {
+                    EnableSavePrompt();
+                }
+            };
+            formTCP.ShowDialog();
+        }
+
+        #endregion
+
+        
     }
 }
