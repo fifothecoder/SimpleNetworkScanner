@@ -47,7 +47,7 @@ namespace SimpleNetworkScanner
                 {
                     MessageBox.Show("Error happened while loading session data!");
                     Close();
-                }+6
+                }
                 Settings.SetSetting("LAST_SAVE", _SESSION_PATH);
                 Text = _SESSION_PATH;
             }
@@ -136,6 +136,7 @@ namespace SimpleNetworkScanner
                 chLastAction.Series[0].Points.Clear();
 
                 foreach (var record in TEST_DATA.GetChartData()) {
+                    if (record.Value == 0) continue;
                     DataPoint point = new DataPoint(0, record.Value);
                     point.LegendText = record.Key;
                     point.Label = record.Value.ToString();
@@ -146,11 +147,11 @@ namespace SimpleNetworkScanner
             }
         }
 
-        private string GetCurrentSaveString()
+        private static string GetCurrentSaveString()
         {
             //Compose the parts here
             string targets = string.Empty;
-            foreach (var tar in TARGETS) { targets += tar.ToString() + Environment.NewLine; }
+            foreach (var tar in TARGETS) { targets += tar + Environment.NewLine; }
 
             //Actual return string
             return "#SAVE_BEGIN"                    + Environment.NewLine +
@@ -166,6 +167,7 @@ namespace SimpleNetworkScanner
         {
             if (Text[0] != '*') Text = '*' + Text;
 
+            FormClosing += ShowPrompt();
             //Actually activate the prompt upon exit
         }
 
@@ -173,7 +175,15 @@ namespace SimpleNetworkScanner
         {
             if (Text[0] == '*') Text = Text.Substring(1);
 
+            FormClosing -= ShowPrompt();
             //Disable the prompt upon exit
+        }
+
+        private FormClosingEventHandler ShowPrompt() {
+            return (sender, args) => {
+                var result = MessageBox.Show("There are unsaved changes. Do you wish to exit without saving?", "Unsaved Changes", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                args.Cancel = result == DialogResult.No;
+            };
         }
 
         #region Session Toolstrip
@@ -227,16 +237,14 @@ namespace SimpleNetworkScanner
                 {
                     writer.Write(GetCurrentSaveString());
                 }
+                _SESSION_PATH = saveFileDialog.FileName;
+                Settings.SetSetting("LAST_SAVE", saveFileDialog.FileName);
+                Text = _SESSION_PATH;
             }
             else
             {
                 MessageBox.Show("You need to set the name for the file!");
                 //Maybe return new invocation of this method?
-            }
-            if (saveFileDialog.FileName != string.Empty) {
-                _SESSION_PATH = saveFileDialog.FileName;
-                Settings.SetSetting("LAST_SAVE", saveFileDialog.FileName);
-                Text = _SESSION_PATH;
             }
 
         }
@@ -362,6 +370,6 @@ namespace SimpleNetworkScanner
 
         #endregion
 
-        
+
     }
 }

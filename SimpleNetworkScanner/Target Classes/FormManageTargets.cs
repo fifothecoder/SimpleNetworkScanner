@@ -23,6 +23,7 @@ namespace SimpleNetworkScanner.Target_Classes
         private void FormManageTargets_Load(object sender, EventArgs e)
         {
             RefreshList();
+            Text = "Manage targets";
         }
 
         private void RefreshList()

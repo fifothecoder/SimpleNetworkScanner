@@ -44,6 +44,8 @@ namespace SimpleNetworkScanner.TCP_Scan_Classes
             tcpTimeout = int.Parse(Settings.GetSetting("TCP_TIMEOUT"));
             tokenSource = new CancellationTokenSource();
             token = tokenSource.Token;
+
+            Text = "TCP Scan";
         }
 
         private void btnStart_Click(object sender, EventArgs e) {
@@ -62,14 +64,14 @@ namespace SimpleNetworkScanner.TCP_Scan_Classes
             token.ThrowIfCancellationRequested();
             if ((currentScan & TCPScanType.Brief) == TCPScanType.Brief) AddPorts(Settings.GetBriefPorts());
 
-            pBar.Invoke((MethodInvoker)delegate {
-                pBar.Value = 0;
-                pBar.Maximum = currentPorts.Count * FormSession.TARGETS.Count;         
-            });
+
+            if (!tokenSource.IsCancellationRequested)
+                    pBar.Invoke((MethodInvoker)delegate {
+                    pBar.Value = 0;
+                    pBar.Maximum = currentPorts.Count * FormSession.TARGETS.Count;         
+                });
 
             if ((currentScan & TCPScanType.Brief) == TCPScanType.Brief) {
-
-                Invoke((MethodInvoker) delegate { Text = "Brief TCP Scan"; }); 
 
                 foreach (var target in FormSession.TARGETS) {
                     foreach (var port in currentPorts) {
@@ -80,17 +82,22 @@ namespace SimpleNetworkScanner.TCP_Scan_Classes
 
             }
 
-            completed = true;
-            TCPTestData tcpData = new TCPTestData(TestDataChartType.Pie);
-            tcpData.AddData("Open ports", portsOpened);
-            tcpData.AddData("Closed ports", portsClosed);
-            FormSession.TEST_DATA = tcpData;
+            
 
-            if (!tokenSource.IsCancellationRequested)
+
+            if (!tokenSource.IsCancellationRequested) {
+
+                completed = true;
                 lProgress.Invoke((MethodInvoker) delegate {
                     lProgress.Text = "Scanning completed!";
                     btnExit.Text = "Exit scan";
                 });
+
+                TCPTestData tcpData = new TCPTestData(TestDataChartType.Pie);
+                tcpData.AddData("Open ports", portsOpened);
+                tcpData.AddData("Closed ports", portsClosed);
+                FormSession.TEST_DATA = tcpData;
+            }
 
 
         }
