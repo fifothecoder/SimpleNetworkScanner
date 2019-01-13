@@ -183,6 +183,7 @@ namespace SimpleNetworkScanner
             return (sender, args) => {
                 var result = MessageBox.Show("There are unsaved changes. Do you wish to exit without saving?", "Unsaved Changes", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 args.Cancel = result == DialogResult.No;
+
             };
         }
 
