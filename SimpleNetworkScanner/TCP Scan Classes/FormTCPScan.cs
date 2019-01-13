@@ -53,6 +53,11 @@ namespace SimpleNetworkScanner.TCP_Scan_Classes
         }
 
         private void ExecuteTCPScan() {
+            lProgress.Invoke( (MethodInvoker) delegate
+            {
+                lProgress.Text = "Iniciating TCP Scan...";
+            });
+
 
             token.ThrowIfCancellationRequested();
             if ((currentScan & TCPScanType.Brief) == TCPScanType.Brief) AddPorts(Settings.GetBriefPorts());
@@ -63,7 +68,9 @@ namespace SimpleNetworkScanner.TCP_Scan_Classes
             });
 
             if ((currentScan & TCPScanType.Brief) == TCPScanType.Brief) {
-                
+
+                Invoke((MethodInvoker) delegate { Text = "Brief TCP Scan"; }); 
+
                 foreach (var target in FormSession.TARGETS) {
                     foreach (var port in currentPorts) {
                         SendTCPRequest(target, port);
@@ -75,8 +82,8 @@ namespace SimpleNetworkScanner.TCP_Scan_Classes
 
             completed = true;
             TCPTestData tcpData = new TCPTestData(TestDataChartType.Pie);
-            tcpData.AddData("Open ports", portsClosed);
-            tcpData.AddData("Closed ports", portsOpened);
+            tcpData.AddData("Open ports", portsOpened);
+            tcpData.AddData("Closed ports", portsClosed);
             FormSession.TEST_DATA = tcpData;
 
             if (!tokenSource.IsCancellationRequested)
@@ -89,25 +96,30 @@ namespace SimpleNetworkScanner.TCP_Scan_Classes
         }
 
         private void SendTCPRequest(IPAddress target, int port) {
-            using(var client = new TcpClient()) {
-                var result = client.BeginConnect(target, port, null, null);
-                var success = result.AsyncWaitHandle.WaitOne(tcpTimeout);
-                if (!success) {
-                    portsClosed++;
-                    if (!tokenSource.IsCancellationRequested)
-                        lbInfo.Invoke((MethodInvoker)delegate {
-                            lbInfo.Items.Add($"{target}:{port}\tis closed/unreachable.");
-                        });
-                    return;
-                }
+                using (var client = new TcpClient())
+                {
+                    var result = client.BeginConnect(target, port, null, null);
+                    var success = result.AsyncWaitHandle.WaitOne(tcpTimeout);
+                    if (!success)
+                    {
+                        portsClosed++;
+                        if (!tokenSource.IsCancellationRequested)
+                            lbInfo.Invoke((MethodInvoker)delegate
+                            {
+                                lbInfo.Items.Add($"{target}:{port}\tis closed/unreachable.");
+                            });
+                        
+                        return;
+                    }
+                    else
+                        portsOpened++;
+                    client.EndConnect(result);
 
-                portsOpened++;
-                client.EndConnect(result);
-                if (!tokenSource.IsCancellationRequested)
-                    lbInfo.Invoke((MethodInvoker)delegate {
-                        lbInfo.Items.Add($"{target}:{port}\tis open.");
-                    });
-            }
+                }
+            if (!tokenSource.IsCancellationRequested)
+                lbInfo.Invoke((MethodInvoker)delegate {
+                    lbInfo.Items.Add($"{target}:{port}\tis open.");
+                });
         }
 
         private void NextAction() {
@@ -115,7 +127,7 @@ namespace SimpleNetworkScanner.TCP_Scan_Classes
                 pBar.Invoke((MethodInvoker) delegate {
                     currentIteration++;
                     pBar.Value = (currentIteration > pBar.Maximum) ? pBar.Maximum : currentIteration;
-                    lProgress.Text = $"Scanning port {currentIteration}/{pBar.Maximum}...";
+                    lProgress.Text = $"Scanning port {currentIteration + 1}/{pBar.Maximum}...";
                     lbInfo.TopIndex = lbInfo.Items.Count > 10 ? lbInfo.Items.Count - 1 : 0;
                 });
         }

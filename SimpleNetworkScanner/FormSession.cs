@@ -47,7 +47,7 @@ namespace SimpleNetworkScanner
                 {
                     MessageBox.Show("Error happened while loading session data!");
                     Close();
-                }
+                }+6
                 Settings.SetSetting("LAST_SAVE", _SESSION_PATH);
                 Text = _SESSION_PATH;
             }
